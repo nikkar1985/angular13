@@ -441,3 +441,118 @@ this.currentIndex = index
 
 bootstrapApplication(App);
 
+
+import 'zone.js';
+import {Component, inject} from '@angular/core';
+import {bootstrapApplication, DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <h1>Hello from {{ name }}!</h1>
+    
+   <div>
+<iframe 
+width="560"
+height="300"
+[src]="videoUrl"
+title="Youtube Video Player"
+frameborder="0"
+allow="accelerometer"; autoplay;
+>
+
+</iframe>
+
+
+</div>
+
+
+
+  `,
+})
+export class App {
+  name = 'Angular';
+private sanitizer = inject(DomSanitizer)
+
+videoUrl: SafeResourceUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/BdtsZZTHtjw?si=sLUMk_qmWZ4gjl27');
+
+}
+
+bootstrapApplication(App);import 'zone.js';
+import {Component, inject} from '@angular/core';
+import {bootstrapApplication, DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1> Youtube Video Playlist </h1>
+    
+   <div>
+<iframe 
+width="560"
+height="300"
+[src]="videoUrl"
+title="Youtube Video Player"
+frameborder="0"
+allow="accelerometer"; autoplay;
+>
+
+</iframe>
+
+
+</div>
+
+<div>
+<h3> Επέλεξε ένα βίντεο </h3>
+<div style="display: flex; gap: 10px;">
+<button 
+*ngFor="let video of playList"
+(click)="updateVideo(video.id)"
+style="padding: 10px; cursor:pointer; border-radius:8px; border:1px;">
+{{video.title}}
+</button>
+
+
+</div>
+
+</div>
+
+
+  `,
+})
+export class App {
+
+private sanitizer = inject(DomSanitizer)
+
+playList = [ 
+{title: 'Microplastics', id:'BdtsZZTHtjw'},
+{title: 'Principles ofGreen Chemistry', id:'j3wNad7OMaM'},
+{title: 'Green Chemistry', id:'SWL7SpYPrQQ'}
+
+];
+
+videoUrl: SafeResourceUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/BdtsZZTHtjw?si=sLUMk_qmWZ4gjl27');
+
+
+updateVideo(videoId: string) {
+const newUrl=`https://www.youtube.com/embed/${videoId}`;
+this.videoUrl= this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
+
+
+}
+
+
+}
+
+bootstrapApplication(App);
+
+
+
+
+
+
+
