@@ -206,3 +206,97 @@ bootstrapApplication(App);
 
 
 
+import 'zone.js';
+import {Component} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <h1> {{name}} Carousel </h1>
+
+    <div 
+      (mouseenter)="stopTimer()" 
+      (mouseleave)="startTimer()" 
+      style="position: relative; overflow:hidden; border-radius:15px; box-shadow: 0 4px 15px; padding: 20px; width: 500px;">
+      
+      <img [src]="images[currentIndex]" 
+           style="width:50%; height: 300px; object-fit:cover; transition: 0.5s;">
+      
+      <div style="margin-top: 10px;">
+        <button (click)="prev()"> Previous </button>
+        <button (click)="next()"> Next </button>
+      </div>
+
+      <div class="dots">
+        <span *ngFor="let img of images; let i=index"
+              [class.active]="i===currentIndex"
+              (click)="currentIndex=i"></span>
+      </div>
+
+      <p> Εικόνα {{currentIndex + 1}} από {{images.length}} </p>
+    </div>
+
+    <style>
+      .dots { margin-top: 10px; }
+      .dots span { 
+        height: 10px; width: 10px; background-color: #bbb;
+        border-radius: 50%; display: inline-block; margin: 0 5px; cursor: pointer; 
+      }
+      .dots span.active { background-color: #dd0031; }
+    </style>
+  `,
+})
+export class App {
+  name = 'Angular';  
+  private timer:any; 
+
+  images = ['https://angular13-9o3c.onrender.com/maximus_poseidon.jpg',
+'https://angular13-9o3c.onrender.com/maximus_hera.jpg',
+'https://angular13-9o3c.onrender.com/maximus_poseidon.jpg',
+'https://angular13-9o3c.onrender.com/maximus_poseidon.jpg']
+
+
+
+ngOnInit() {
+this.startTimer()
+
+}
+ 
+ngOnDestroy(){
+
+  this.stopTimer()
+}
+
+currentIndex=0;
+prev() {
+this.currentIndex = (this.currentIndex-1 + this.images.length)%this.images.length;
+}
+
+next() {
+this.currentIndex = (this.currentIndex+1)%this.images.length;
+}
+
+startTimer() {
+
+this.timer=setInterval(() => {
+this.next();
+},3000);
+
+}
+
+
+stopTimer() {
+
+if (this.timer) {
+  clearInterval(this.timer)
+}
+
+}
+
+}
+
+bootstrapApplication(App);
