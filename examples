@@ -551,6 +551,112 @@ this.videoUrl= this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
 bootstrapApplication(App);
 
 
+import 'zone.js';
+import {Component, inject} from '@angular/core';
+import {bootstrapApplication, DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+
+  <div [ngStyle]= "cinemaMode? cinemaStyle : normalStyle">
+    <h1 [style.color]="cinemaMode ? '#fff': '#000'"> Youtube Video Playlist </h1>
+    
+   <div>
+<iframe 
+width="560"
+height="300"
+[src]="videoUrl"
+title="Youtube Video Player"
+frameborder="0"
+allow="accelerometer"; autoplay;
+>
+
+</iframe>
+
+<div>
+<button (click)="changeColor()" style="padding: 10px 20px; font-size:16px; border-radius:5px; cursor:pointer;">{{cinemaMode ? 'Κλείσιμο Cinema Mode' : 'Άνοιγμα Cinema Mode'}}
+</button>
+</div>
+
+
+
+</div>
+
+<div>
+<h3 [style.color]="cinemaMode ? '#fff': '#000'"> Επέλεξε ένα βίντεο </h3>
+<div style="display: flex; gap: 10px;">
+<button 
+*ngFor="let video of playList"
+(click)="updateVideo(video.id)"
+style="padding: 10px; cursor:pointer; border-radius:8px; border:1px;">
+{{video.title}}
+</button>
+
+
+</div>
+
+</div>
+
+</div>
+  `,
+})
+export class App {
+
+private sanitizer = inject(DomSanitizer)
+
+cinemaMode=false;
+
+cinemaStyle = {
+'background-color': '#111',
+'min-height': ' 100vh'
+}
+
+normalStyle={
+  'background-color': '#fff',
+  'min-height': ' 100vh'
+
+}
+
+playList = [ 
+{title: 'Microplastics', id:'BdtsZZTHtjw'},
+{title: 'Principles ofGreen Chemistry', id:'j3wNad7OMaM'},
+{title: 'Green Chemistry', id:'SWL7SpYPrQQ'},
+{title: 'Man Utd - Aston Villa 3-1', id:'N8w-XJMiJ78'},
+{title: 'Man Utd - Aston Villa 3-1', id:'N8w-XJMiJ78'}
+
+];
+
+videoUrl: SafeResourceUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/BdtsZZTHtjw?si=sLUMk_qmWZ4gjl27');
+
+
+updateVideo(videoId: string) {
+const newUrl=`https://www.youtube.com/embed/${videoId}`;
+this.videoUrl= this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
+
+
+}
+
+
+changeColor(){
+this.cinemaMode = !this.cinemaMode
+
+
+}
+
+
+
+}
+
+bootstrapApplication(App);
+
+
+
+
+
 
 
 
