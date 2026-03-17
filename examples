@@ -1,0 +1,66 @@
+import 'zone.js';
+import {Component} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <h1> Hello from Angular! </h1>
+    <h1>Hello from {{ name }}!</h1>
+    <a target="_blank" href="https://angular.dev/overview">
+      Learn more about Angular
+    </a>
+
+<div>
+<h3> Angular Εικόνα με Url </h3>
+<img src=" https://angular13-9o3c.onrender.com/maximus_hera.jpg " 
+alt = "Ηρακλής"
+width="150">
+</div> 
+<hr>
+<hr>
+<div>
+<h3> Angular Εικόνα με Url </h3>
+<img src=" https://angular13-9o3c.onrender.com/maximus_poseidon.jpg " 
+alt = "Ηρακλής"
+width="150">
+</div> 
+
+<br>
+<br>
+<h3> Angular Aνέβασμα εικόνας με μεταβλητή </h3>
+<img [src]="imageUrl"
+[alt]= "imageAlt"
+style="border-radius: 50%; border:2px solid #dd0031"
+width ="150">
+<hr>
+<hr>
+<h3> Angular Aνέβασμα εικόνας με μεταβλητή παράδειγμα νο 2 </h3>
+<img [src]="imageUrl1"
+[alt]= "imageAlt1"
+style="border-radius: 50%; border:2px solid #dd0031"
+width ="150">
+
+<br>
+<br>
+<img [src]="imageUrl1"
+[alt]= "imageAlt1"
+style="border-radius: 50%; border:2px solid #dd0031"
+width ="150">
+
+
+  `,
+})
+export class App {
+  name = 'Angular';  
+  imageUrl = "https://angular13-9o3c.onrender.com/maximus_hera.jpg";
+  imageAlt = "Ήρα";
+  imageUrl1 = "https://angular13-9o3c.onrender.com/maximus_poseidon.jpg";
+  imageAlt1 = "Ποσειδώνας";
+
+
+
+}
+
+bootstrapApplication(App);
